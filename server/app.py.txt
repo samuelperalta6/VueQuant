@@ -1,0 +1,119 @@
+from flask import Flask
+
+    app = Flask(__name__)
+
+    @app.route('/')
+    def hello_world():
+        return 'Hello, VueQuant Backend!'
+
+    if __name__ == '__main__':
+        app.run(debug=True)
+    ```
+
+    * This code does the following:
+        * Imports the Flask class.
+        * Creates a Flask application instance.
+        * Defines a route (`/`) that, when accessed, will return the text "Hello, VueQuant Backend!".
+        * Runs the Flask development server if the script is executed directly.
+
+**Step 1.4: Frontend Setup (React)**
+
+* **Description:** Initialize the React frontend application. [cite: 24, 25, 26]
+* **Tasks:**
+    * Use `create-react-app` to generate a basic React project. [cite: 25]
+    * Install necessary styling libraries (e.g., Tailwind CSS). [cite: 25]
+    * Configure the styling library. [cite: 25]
+* **Required Resources:**
+    * Node.js, npm. [cite: 26]
+    * `create-react-app` and styling libraries. [cite: 26]
+
+**Detailed Instructions:**
+
+1.  **Navigate to the `client` directory:**
+    * Type `cd ../client` and press Enter (the `..` moves you up one directory level).
+2.  **Use `create-react-app` to generate a React project:**
+    * `create-react-app` is a tool that sets up a basic React application structure for you.
+    * Type `npx create-react-app .` and press Enter.
+        * `npx` is a tool that comes with Node.js and npm and allows you to run packages without installing them globally.
+        * The `.` tells `create-react-app` to create the project in the current directory (`client`).
+    * This process might take a few minutes as it downloads and installs the necessary files.
+3.  **Install Tailwind CSS (for styling):**
+    * Tailwind CSS is a utility-first CSS framework that will help you style your application quickly.
+    * Type `npm install -D tailwindcss postcss autoprefixer` and press Enter.
+        * `-D` or `--save-dev` installs these packages as development dependencies (they're primarily used during development).
+        * `postcss` and `autoprefixer` are tools that Tailwind CSS uses.
+4.  **Configure Tailwind CSS:**
+    * Initialize Tailwind CSS:
+        * Type `npx tailwindcss init -p` and press Enter.
+        * This creates two files: `tailwind.config.js` and `postcss.config.js`.
+    * **Configure `tailwind.config.js`:**
+        * Open `tailwind.config.js` in your editor.
+        * For now, you can start with the default configuration. You'll likely customize this later as you design your app.
+    * **Configure `postcss.config.js`:**
+        * Open `postcss.config.js` in your editor.
+        * Replace its contents with:
+
+```javascript
+        module.exports = {
+          plugins: {
+            tailwindcss: {},
+            autoprefixer: {},
+          },
+        }
+        ```
+
+    * **Include Tailwind CSS in your CSS:**
+        * Open `src/index.css` in your editor.
+        * Replace its contents with:
+
+```css
+        @tailwind base;
+        @tailwind components;
+        @tailwind utilities;
+        ```
+
+        * These `@tailwind` directives inject Tailwind's styles into your CSS.
+
+**Step 1.5: Version Control Setup (Git)**
+
+* **Description:** Initialize Git for version control. [cite: 26, 27, 28]
+* **Tasks:**
+    * Initialize a Git repository. [cite: 27]
+    * Create a `.gitignore` file to exclude unnecessary files. [cite: 27]
+    * Make an initial commit. [cite: 27]
+* **Required Resources:**
+    * Git. [cite: 27, 28]
+    * Text editor. [cite: 27, 28]
+    * GitHub or other Git hosting service (optional, for remote repository). [cite: 28]
+
+**Detailed Instructions:**
+
+1.  **Navigate to the main project directory:**
+    * Type `cd ../` and press Enter (to go back to the `VueQuant` directory).
+2.  **Initialize a Git repository:**
+    * Type `git init` and press Enter.
+    * This turns your `VueQuant` directory into a Git repository, allowing Git to track changes to your files.
+3.  **Create a `.gitignore` file:**
+    * This file tells Git which files and folders it should *not* track. This is important to avoid including unnecessary or sensitive data in your repository.
+    * Create a file named `.gitignore` in the `VueQuant` directory.
+    * Add the following to your `.gitignore` file:
+
+    # Node modules
+node_modules/
+
+# Python virtual environment
+venv/
+
+# IDE files (example for VS Code)
+.vscode/
+
+# Build files (if you have them)
+build/
+dist/
+
+# Environment variables (if you have them)
+.env
+```
+
+* This `.gitignore` file tells Git to ignore the `node_modules` folder (which contains your npm packages), the `venv` folder (your Python virtual environment), any `.vscode` folder (VS Code settings), and any `build` or `dist` folders (where compiled code might go).
+* **Important:** Add any other files or folders that contain sensitive information or that are automatically generated and don't need to be tracked.
