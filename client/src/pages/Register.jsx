@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "../axiosConfig";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../context/UserContext";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -25,11 +24,9 @@ const Register = () => {
     setError("");
     try {
       await axios.post(
-        "/register",
+        "/auth/register", // ✅ Corrected endpoint to match Flask blueprint
         formData,
-        {
-          withCredentials: true, // ✅ This line enables cookies/token support
-        }
+        { withCredentials: true }
       );
       setSuccess(true);
       setTimeout(() => {

@@ -1,31 +1,33 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import API from "../axiosConfig.js";
+import API from "../axiosConfig";
 
 export const UserContext = createContext();
 export const useUser = () => useContext(UserContext);
 
-
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const fetchUser = async () => {
+  const getCurrentUser = async () => {
     try {
-      const response = await API.get("/user");
+      const response = await API.get("/api/user/", {
+        withCredentials: true,
+      });      
       setUser(response.data);
     } catch (error) {
-      console.error("User fetch failed or token invalid", error);
+      console.error("❌ Failed to get current user:", error?.response?.status, error?.response?.data);
       setUser(null);
-      localStorage.removeItem("token");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) fetchUser();
+    getCurrentUser();
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser, fetchUser }}>
+    <UserContext.Provider value={{ user, setUser, getCurrentUser, loading }}>
       {children}
     </UserContext.Provider>
   );

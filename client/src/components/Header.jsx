@@ -1,12 +1,20 @@
 import React from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import API from "../axiosConfig";
+import { useUser } from "../context/UserContext";
 
 const Header = () => {
   const navigate = useNavigate();
+  const { setUser } = useUser();
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      await API.post("/auth/logout");
+      setUser(null);
+      navigate("/login");
+    } catch (err) {
+      console.error("Logout failed", err);
+    }
   };
 
   return (

@@ -1,92 +1,27 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import api from "../axiosConfig";
-import { UserContext } from "../context/UserContext";
+import React from "react";
+import { Link } from "react-router-dom";
 
-const Register = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await api.post("/register", {
-        username,
-        email,
-        password,
-      });
-
-      if (response.data.token) {
-        localStorage.setItem("token", response.data.token);
-        alert("Registration successful!");
-        navigate("/dashboard");
-      }
-    } catch (error) {
-      console.error("Registration error:", error);
-      alert("Registration failed. Please try again.");
-    }
-  };
-
+const Home = () => {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-md"
-      >
-        <h2 className="text-2xl font-bold mb-6 text-center text-black">Register</h2>
-
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Username
-          </label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Email
-          </label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            required
-          />
-        </div>
-
-        <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Password
-          </label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-            required
-          />
-        </div>
-
-        <div className="flex items-center justify-between">
-          <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 text-center px-4">
+      <h1 className="text-4xl font-bold mb-4 text-gray-800">Welcome to VueQuant 📊</h1>
+      <p className="text-lg mb-6 text-gray-600">
+        Your private trading journal. Track your stock & options plays like a pro.
+      </p>
+      <div className="flex gap-4">
+        <Link to="/login">
+          <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
+            Login
+          </button>
+        </Link>
+        <Link to="/register">
+          <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded">
             Register
           </button>
-        </div>
-      </form>
+        </Link>
+      </div>
     </div>
   );
 };
 
-export default Register;
+export default Home;

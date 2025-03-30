@@ -1,34 +1,34 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "../axiosConfig"; // Use your shared config
 
 const RegisterForm = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage('');
-    setError('');
+    setMessage("");
+    setError("");
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register', {
+      const response = await axios.post("/auth/register", {
         username,
         email,
         password,
       });
 
       if (response.status === 201) {
-        setMessage('🎉 User registered successfully!');
-        setUsername('');
-        setEmail('');
-        setPassword('');
+        setMessage("🎉 User registered successfully!");
+        setUsername("");
+        setEmail("");
+        setPassword("");
       }
-    } catch (error) {
+    } catch (err) {
       setError(
-        error.response?.data?.error || 'An error occurred during registration.'
+        err.response?.data?.error || "An error occurred during registration."
       );
     }
   };
@@ -41,39 +41,39 @@ const RegisterForm = () => {
         {message && <p className="text-green-600 mb-4 text-center">{message}</p>}
         {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
 
-        <form onSubmit={handleSubmit}>
-          <div className="text-black">
+        <form onSubmit={handleSubmit} className="space-y-4 text-black">
+          <div>
             <label className="block text-gray-700">Username</label>
             <input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              className="mt-1 w-full border border-gray-300 rounded-md py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter username"
             />
           </div>
 
-          <div className="mb-4">
+          <div>
             <label className="block text-gray-700">Email</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="mt-1 w-full border border-gray-300 rounded-md py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter email"
             />
           </div>
 
-          <div className="mb-6">
+          <div>
             <label className="block text-gray-700">Password</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="mt-1 w-full border border-gray-300 rounded-md py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter password"
             />
           </div>
