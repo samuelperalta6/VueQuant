@@ -1,0 +1,15 @@
+# Node modules
+node_modules/
+
+# Python virtual environment
+venv/
+
+# IDE files (example for VS Code)
+.vscode/
+
+# Build files (if you have them)
+build/
+dist/
+
+# Environment variables (if you have them)
+.env

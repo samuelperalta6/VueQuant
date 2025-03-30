@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from "../../axiosConfig.js";
-
+import api from "../axiosConfig";
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -10,32 +9,32 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    try {
-      const response = await api.post('/login', { username, password }); // ✅ Using your api instance
 
-      if (response.status === 200) {
-        localStorage.setItem('token', response.data.token); // ✅ Store JWT
-        navigate('/dashboard'); // Redirect to dashboard after login
-      }
+    try {
+      const response = await api.post("/api/auth/login", {
+        username,
+        password,
+      });
+
+      console.log("Login success:", response.data);
     } catch (error) {
-      alert('Login failed: ' + (error.response?.data.error || 'Unknown error'));
+      console.error("Login failed:", error.response?.data || error.message);
     }
   };
 
   return (
     <form onSubmit={handleLogin}>
       <input
+        type="text"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         placeholder="Username"
-        className="text-black"
       />
       <input
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Password"
-        className="text-black"
       />
       <button type="submit">Login</button>
     </form>

@@ -1,37 +1,37 @@
 from flask import Flask
-from flask_cors import CORS
-from flask_jwt_extended import JWTManager
-from models import db
-from auth import auth_bp
+from extensions import db, jwt, cors
 from user import user_bp
+from auth import auth_bp
+from dotenv import load_dotenv
+from flask_cors import CORS
 
-
-jwt = JWTManager()  # Define it here, but init later
+cors = CORS(
+    resources={r"/api/*": {"origins": "http://localhost:5173"}},
+    supports_credentials=True,
+)
 
 def create_app():
+    load_dotenv(".env")
+
     app = Flask(__name__)
+    app.config.from_prefixed_env()
 
-    app.config.from_pyfile("config.py", silent=True)
-
-    import os
-    from dotenv import load_dotenv
-    load_dotenv()
-
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SECRET_KEY'] = os.getenv("JWT_SECRET")
-
+    cors.init_app(app)
     db.init_app(app)
-    jwt.init_app(app)  
+    jwt.init_app(app)
 
-    # Register Blueprints
-    app.register_blueprint(auth_bp, url_prefix="/api/auth")
-    app.register_blueprint(user_bp, url_prefix="/api")
+    cors.init_app(
+        app,
+        origins=["http://localhost:5173"],  # Change based on your frontend URL
+        supports_credentials=True,  # Allow cookies to be sent with requests
+        methods=["GET", "POST", "OPTIONS", "PUT", "DELETE"],  # Allow specific HTTP methods
+        allow_headers=["Content-Type", "Authorization"],  # Allow the necessary headers
+    )
 
-    # CORS
-    CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}},
-         supports_credentials=True,
-         allow_headers=["Content-Type", "Authorization"],
-         methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+    app.register_blueprint(user_bp)
+    app.register_blueprint(auth_bp)
+
+    with app.app_context():
+        db.create_all()
 
     return app
